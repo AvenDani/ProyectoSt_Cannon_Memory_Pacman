@@ -50,7 +50,6 @@ def xy(count):
     """Convert tiles count to (x, y) coordinates."""
     return (count % 8) * 50 - 200, (count // 8) * 50 - 200
 
-
 ###############################################################################
 #Se modificó la funciónn "tap" ya que esta es la que monitorea los clicks dados, y las parejas encontradas
 
@@ -77,13 +76,18 @@ def tap(x, y):
 ###########################################################################################################
 
 
+#########################################################################################################
+#Se modifió la función de dibujo para centrar los íconos y cambiarlos por unos nuevos o diferentes
+
 def draw():
     """Draw image and tiles."""
     clear()
     goto(0, 0)
     shape(car)
     stamp()
-
+    global largo
+    global indice
+    global abecedario
     for count in range(64):
         if hide[count]:
             x, y = xy(count)
@@ -94,12 +98,20 @@ def draw():
     if mark is not None and hide[mark]:
         x, y = xy(mark)
         up()
-        goto(x + 2, y)
-        color('black')
-        write(tiles[mark], font=('Arial', 30, 'normal'))
+        indice=tiles[mark]
+        largo=str(tiles[mark])
+        if len(largo)==2:
+            goto(x+10, y+15)
+            color('black')
+            write(abecedario[indice], font=('Arial', 10, 'normal'))
+        else:
+            goto(x+20, y+15)
+            color('black')
+            write(abecedario[indice], font=('Arial', 10, 'normal'))
 
     update()
     ontimer(draw, 100)
+##################################################################################################
 
 
 shuffle(tiles)
