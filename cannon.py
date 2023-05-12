@@ -54,7 +54,7 @@ def move():
         targets.append(target)
 
     for target in targets:
-        target.x -= 0.5
+        target.x -= 2
 
     if inside(ball):
         speed.y -= 0.35
@@ -68,11 +68,12 @@ def move():
             targets.append(target)
 
     draw()
-
+###################################################################
+#Parte para regresar los globos a la posición inicial, con altura random
     for target in targets:
         if not inside(target):
-            return
-
+            target.x=200
+            target.y=randrange(-200,200)
 ######################################################################
 #Parte para modificar la velocidad del juego
     ontimer(move, 10)
