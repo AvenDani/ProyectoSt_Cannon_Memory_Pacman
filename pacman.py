@@ -109,9 +109,11 @@ def world():
                 path.goto(x + 10, y + 10)
                 path.dot(2, 'white')
 
-
+######################################################################
+#Parte del programa que se modificó para mover más rápido los fantasmas
+# Y para hacer a los fantasmas más inteligentes
 def move():
-    """Move pacman and all ghosts."""
+    "Move pacman and all ghosts."
     writer.undo()
     writer.write(state['score'])
 
@@ -137,15 +139,95 @@ def move():
         if valid(point + course):
             point.move(course)
         else:
-            options = [
-                vector(5, 0),
-                vector(-5, 0),
-                vector(0, 5),
-                vector(0, -5),
-            ]
-            plan = choice(options)
-            course.x = plan.x
-            course.y = plan.y
+            if pacman.y<=point.y:
+                if pacman.x<=point.x:
+                    options = [
+                        vector(-20, 0),
+                        vector(0, -20)
+                    ]
+                    plan = choice(options)
+                    if valid(point + plan):
+                        course.x = plan.x
+                        course.y = plan.y
+                    else:
+                        options = [
+                            vector(20, 0),
+                            vector(0, 20)
+                        ]
+                    plan = choice(options)
+                    course.x = plan.x
+                    course.y = plan.y
+
+                else:
+                        options=[
+                        vector(20, 0),
+                        vector(0, -20)
+                        ]
+                        plan = choice(options)
+                        if valid(point + plan):
+                            course.x = plan.x
+                            course.y = plan.y
+                        else:
+                            options=[
+                            vector(-20, 0),
+                            vector(0, 20)
+                            ]
+                            plan = choice(options)
+                            course.x = plan.x
+                            course.y = plan.y
+            else:
+                if pacman.x<=point.x:
+                    options = [
+                        vector(-20, 0),
+                        vector(0, 20)
+                    ]
+                    plan = choice(options)
+                    if valid(point + plan):
+                        course.x = plan.x
+                        course.y = plan.y
+                    else:
+                        options = [
+                            vector(20, 0),
+                            vector(0, 20),
+                            vector(0, -20)
+                        ] 
+                        plan = choice(options)
+                        if valid(point + plan):
+                            course.x = plan.x
+                            course.y = plan.y
+                        else:                        
+                            options=[
+                            vector(20, 0),
+                            vector(0, 20),
+                            vector(0, -20)
+                            ]
+
+                else:
+                    options=[
+                    vector(20, 0),
+                    vector(0, 20)
+                    ]
+                    plan = choice(options)
+                    if valid(point + plan):
+                        course.x = plan.x
+                        course.y = plan.y
+                    else:
+                        options=[
+                        vector(-20, 0),
+                        vector(0, 20),
+                        ]
+                        if valid(point + plan):
+                            course.x = plan.x
+                            course.y = plan.y
+                        else:                        
+                            options=[
+                            vector(-20, 0),
+                            vector(0, -20),
+                            vector(0, 20)
+                            ]
+                        plan = choice(options)
+                        course.x = plan.x
+                        course.y = plan.y
 
         up()
         goto(point.x + 10, point.y + 10)
@@ -158,8 +240,7 @@ def move():
             return
 
     ontimer(move, 100)
-
-
+###################################################################################
 def change(x, y):
     """Change pacman aim if valid."""
     if valid(pacman + vector(x, y)):
